@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materias y Programas</title>
+    <link rel="stylesheet" href="CSS/materias.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Librerías -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 class="logo">SIGA <span>UPAEP</span></h2>
+        <ul>
+            <li>
+                <a href="dashboard.html">
+                    <img src="Imagenes/inicio.svg" alt="Inicio" class="icon"> Inicio
+                </a>
+            </li>
+            <li>
+                <a href="planeacion.html">
+                    <img src="Imagenes/planeacion.svg" alt="Planeación" class="icon"> Planeación Académica
+                </a>
+            </li>
+            <li class="active">
+                <a href="#">
+                    <img src="Imagenes/materias.svg" alt="Materias" class="icon"> Materias y Programas
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Imagenes/estudiantes.svg" alt="Estudiantes" class="icon"> Estudiantes
+                </a>
+            </li>
+            <li>
+                <a href="gestion_usuarios.html">
+                    <img src="Imagenes/usuarios.svg" alt="Usuarios" class="icon"> Gestión de Usuarios
+                </a>
+            </li>
+        </ul>
+        <div class="logout">
+            <a href="login.html">Salir</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Materias y Programas</h1>
+
+        <div class="info-cards">
+            <div class="card">
+                <div class="icon-circle"><img src="Imagenes/programas.svg" alt="Programas"></div>
+                <div class="info-text">
+                    <span>Programas</span>
+                    <p>3</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon-circle"><img src="Imagenes/planes.svg" alt="Planes"></div>
+                <div class="info-text">
+                    <span>Planes</span>
+                    <p>4</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon-circle"><img src="Imagenes/materias1.svg" alt="Materias"></div>
+                <div class="info-text">
+                    <span>Materias</span>
+                    <p>200</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2>Todas las materias</h2>
+            <div class="table-actions">
+                <button class="btn">Agregar Plan</button>
+                <button class="btn">Eliminar Plan</button>
+                <div class="search-container">
+                    <img src="Imagenes/buscar.svg" class="search-icon">
+                    <input type="text" placeholder="Buscar">
+                </div>
+                <select>
+                    <option>Sin filtro</option>
+                    <option>Plan</option>
+                    <option>Estado</option>
+                    <option>Módulo</option>
+                </select>
+                <img src="Imagenes/exportar.svg" class="export-icon" id="exportPdf">
+            </div>
+            <table id="materiasTable">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Módulo</th>
+                        <th>Asignatura</th>
+                        <th>Prerrequisitos</th>
+                        <th>Equivalencias</th>
+                        <th>Plan</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos generados por JavaScript -->
+                </tbody>
+            </table>
+            <div class="pagination-info">
+                <p>Mostrando datos 1 a 3 de 3 entradas</p>
+            </div>
+            <div class="pagination">
+                <button class="prev"><img src="Imagenes/anterior.svg"></button>
+                <span class="page-number">1</span>
+                <button class="next"><img src="Imagenes/siguiente.svg"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para eliminar plan -->
+    <div id="deletePlanModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Seleccione el plan a eliminar</h2>
+            <ul id="planList">
+                <!-- Los planes se agregarán dinámicamente aquí -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>¿Estás seguro de eliminar este plan?</h2>
+            <p>Esta acción no se puede deshacer.</p>
+            <div class="modal-buttons">
+                <button id="confirmDelete">Aceptar</button>
+                <button id="cancelDelete">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar plan -->
+    <div id="addPlanModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Cargar archivo Excel</h2>
+            <input type="file" id="excelFileInput" accept=".xls, .xlsx" />
+            <button id="uploadFile">Cargar archivo</button>
+            <p id="fileStatus"></p>
+        </div>
+    </div>
+
+    <!-- Modal para vista previa del PDF -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Vista Previa del Documento</h2>
+            <div id="pdfPreview"></div> <!-- Aquí se mostrará la vista previa -->
+            <div class="modal-buttons">
+                <button id="savePdf">Guardar</button>
+                <button id="cancelPdf">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="JavaScript/materias.js"></script>
+    <script>
+        // Función para exportar la tabla a PDF
+        document.getElementById("exportPdf").addEventListener("click", () => {
+            const table = document.getElementById("materiasTable"); // Selecciona la tabla
+
+            // Captura la tabla como una imagen usando html2canvas
+            html2canvas(table).then((canvas) => {
+                const imgData = canvas.toDataURL("image/png"); // Convierte la imagen a base64
+
+                // Mostrar la vista previa en el modal
+                const pdfPreview = document.getElementById("pdfPreview");
+                pdfPreview.innerHTML = `<img src="${imgData}" alt="Vista previa del PDF">`;
+
+                // Mostrar el modal de vista previa
+                const previewModal = document.getElementById("previewModal");
+                previewModal.style.display = "flex";
+
+                // Botón para guardar el PDF
+                document.getElementById("savePdf").addEventListener("click", () => {
+                    const pdf = new jspdf.jsPDF("p", "mm", "a4"); // Crea un nuevo PDF en formato A4
+
+                    const imgWidth = 210; // Ancho de la página A4 en mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calcula la altura proporcional
+
+                    // Agrega la imagen al PDF
+                    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+                    // Descarga el PDF
+                    pdf.save("tabla_materias.pdf");
+
+                    // Cerrar el modal
+                    previewModal.style.display = "none";
+                });
+
+                // Botón para cancelar
+                document.getElementById("cancelPdf").addEventListener("click", () => {
+                    // Cerrar el modal sin hacer nada
+                    previewModal.style.display = "none";
+                });
+            });
+        });
+
+        // Cerrar el modal al hacer clic en la "X" o fuera del modal
+        document.querySelectorAll(".close, .modal").forEach(element => {
+            element.addEventListener("click", (event) => {
+                if (event.target === element) {
+                    document.getElementById("previewModal").style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

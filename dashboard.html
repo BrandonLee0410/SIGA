@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGA UPAEP</title>
+    <link rel="stylesheet" href="CSS/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 class="logo">SIGA <span>UPAEP</span></h2>
+        <ul>
+            <li class="active">
+                <a href="#">
+                    <img src="Imagenes/inicio.svg" alt="Inicio" class="icon"> Inicio
+                </a>
+            </li>
+            <li>
+                <a href="planeacion.html">
+                    <img src="Imagenes/planeacion.svg" alt="Planeación" class="icon"> Planeación Académica
+                </a>
+            </li>
+            <li>
+                <a href="materias.html">
+                    <img src="Imagenes/materias.svg" alt="Materias" class="icon"> Materias y Programas
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="Imagenes/estudiantes.svg" alt="Estudiantes" class="icon"> Estudiantes
+                </a>
+            </li>
+            <li>
+                <a href="gestion_usuarios.html">
+                    <img src="Imagenes/usuarios.svg" alt="Usuarios" class="icon"> Gestión de Usuarios
+                </a>
+            </li>
+        </ul>
+        <div class="logout">
+            <a href="login.html">Salir</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Inicio</h1>
+        <p>Bienvenido, Vittorio 👋</p>
+
+        <div class="dashboard">
+            <div class="card"> <h3>Todos los estudiantes</h3> <p>423</p> </div>
+            <div class="card"> <h3>Estudiantes inscritos</h3> <p>393</p> </div>
+            <div class="card"> <h3>Estudiantes no inscritos</h3> <p>30</p> </div>
+            <div class="card"> <h3>Porcentaje de materias reprobadas</h3> <p>3%</p> <canvas id="chart1"></canvas> </div>
+            <div class="card"> <h3>Porcentaje de materias dadas de baja</h3> <p>11%</p> <canvas id="chart2"></canvas> </div>
+            <div class="card"> <h3>Porcentaje de materias aprobadas</h3> <p>86%</p> <canvas id="chart3"></canvas> </div>
+        </div>
+
+        <div class="students-section">
+            <h2>Alumnos inscritos</h2>
+            <div class="student-bar">
+                <span>💻 Ingeniería en Computación y Sistemas</span>
+                <div class="bar"><div class="progress" style="width: 80%;"></div></div>
+                <span>120 estudiantes</span>
+            </div>
+            <div class="student-bar">
+                <span>⌨ Ingeniería de Software</span>
+                <div class="bar"><div class="progress" style="width: 60%;"></div></div>
+                <span>80 estudiantes</span>
+            </div>
+            <div class="student-bar">
+                <span>📊 Ingeniería en Ciencia de Datos</span>
+                <div class="bar"><div class="progress" style="width: 40%;"></div></div>
+                <span>40 estudiantes</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="JavaScript/dashboard.js"></script>
+
+</body>
+</html>
